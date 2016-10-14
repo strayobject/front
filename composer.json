@@ -1,0 +1,9 @@
+{
+    "require": {
+        "amphp/aerys": "dev-master",
+        "twig/twig": "^1"
+    },
+    "autoload": {
+        "psr-4": {"Front\\": "src/Front/"}
+    }
+}

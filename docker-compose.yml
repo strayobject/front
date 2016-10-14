@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+    phpchatserver:
+        image: php:7.1-cli
+        working_dir: /var/www/html
+        entrypoint: /bin/bash -c /var/www/html/opt/app/entrypoint.sh
+        volumes:
+            - .:/var/www/html
+        ports:
+          - 8899:8899
+          - 8080:8080
+        depends_on: []
+          # - rethinkdb
+        links: []
+          # - rethinkdb:rethinkdb
+
+    # rethinkdb:
+    #     image: rethinkdb:2.3.5
