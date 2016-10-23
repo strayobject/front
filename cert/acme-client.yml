@@ -29,8 +29,14 @@ certificates:
     #        but some servers might require to be owner of files they serve.
     #
     - bits: 4096
-    - paths:
+      paths:
         /var/www/html/web:
             - strayobject.co.uk
             - www.strayobject.co.uk
+            - test.strayobject.co.uk
     - user: nobody
+      paths:
+        /var/www/html/web:
+            - strayobject.co.uk
+            - www.strayobject.co.uk
+            - test.strayobject.co.uk
