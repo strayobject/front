@@ -1,5 +1,7 @@
 #!/bin/bash
 
+bin/composer.phar install
+
 # download letsencrypt client
 wget -P cert/ https://github.com/kelunik/acme-client/releases/download/v0.2.10/acme-client.phar
 chmod +x acme-client.phar
