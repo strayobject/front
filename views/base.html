@@ -2,16 +2,24 @@
 <html>
     <head>
         {% block head %}
-            <link rel="stylesheet" href="style.css" />
-            <title>StrayObject - {% block title %}{% endblock %}</title>
+            <title>StrayObject - {{title|capitalize}}</title>
+            <link rel="stylesheet" type="text/css" href="/css/style.css"/>
         {% endblock %}
     </head>
     <body>
-        <div id="content">{% block content %}{% endblock %}</div>
-        <div id="footer">
-            {% block footer %}
-                &copy; Copyright {{'now'|date('Y')}}.
-            {% endblock %}
+        <header>
+            {%include 'header.html'%}
+            <footer>
+                {% block footer %}
+                    &copy; Copyright {{'now'|date('Y')}}.
+                {% endblock %}
+            </footer>
+        </header>
+        <div id="content">
+            {% block content %}{% endblock %}
         </div>
+        <script type="text/javascript">
+            
+        </script>
     </body>
 </html>

@@ -26,6 +26,12 @@ class RedirectController
     private $secure;
 
     /**
+     * should we pass the path forward
+     * @var bool
+     */
+    private $pathForward;
+
+    /**
      * @todo would be nice to ensure $domain conforms to some general rules:
      *  - no slash at the end
      *  - no schema in the front
@@ -34,26 +40,28 @@ class RedirectController
      * @param string $domain     [description]
      * @param bool   $secure     [description]
      */
-    public function __construct(int $statusCode, string $domain, bool $secure)
+    public function __construct(int $statusCode, string $domain, bool $secure, bool $pathForward)
     {
         $this->statusCode = $statusCode;
         $this->domain = $domain;
         $this->secure = $secure;
+        $this->pathForward = $pathForward;
     }
 
     public function __invoke(Request $request, Response $response, array $args): void
     {
-        $destination = $this->getDestination($args['path']);
+        $path = $this->pathForward ? $args['path'] : '';
+        $destination = $this->getDestination($path);
         $response->setStatus($this->statusCode);
         $response->addHeader('Location', $destination);
         $response->end(null);
     }
 
     /**
-     * @param  [type] $path [description]
-     * @return [type]       [description]
+     * @param  string $path
+     * @return string
      */
-    private function getDestination($path): string
+    private function getDestination(string $path): string
     {
         return ($this->secure ? 'https://' : 'http://').$this->domain.'/'.$path;
     }

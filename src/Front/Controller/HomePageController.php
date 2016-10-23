@@ -5,7 +5,7 @@ namespace Front\Controller;
 
 use Aerys\{Response, Request};
 
-class PageController
+class HomePageController
 {
     private $twig;
 
@@ -16,7 +16,7 @@ class PageController
 
     public function __invoke(Request $request, Response $response, array $args): void
     {
-        $content = $this->twig->render(sprintf('pages/%s.html', $args['page']), ['title' => $args['page']]);
+        $content = $this->twig->render('pages/home.html', ['title' => '']);
         $response->end($content);
     }
 

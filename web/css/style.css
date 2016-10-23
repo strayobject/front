@@ -1,0 +1,89 @@
+body, html{
+    width:100%;
+    height:100%;
+    margin:0;
+    padding:0;
+    background:rgb(15, 45, 60);
+    position:relative;
+}
+header{
+    height:100%;
+    padding:1% 0;
+    background:#002535;
+    color:rgb(255,255,255);
+    width:35%;
+    width:calc(280px);
+    overflow:hidden;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    box-sizing: border-box;
+}
+h1.small{
+    font-size:1.5em;
+    padding-left:20px;
+}
+nav,ul{
+    padding-top:5px;
+    width:100%;
+}
+nav ul, ul.git{
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+nav ul li, ul.git li{
+    line-height: 40px;
+}
+nav ul li a, ul.git a{
+    display: block;
+    text-decoration: none;
+    color:rgb(255,255,255);
+    padding-left:40px;
+    width:100%;
+    box-sizing: border-box;
+}
+nav ul li a:hover, ul.git a:hover{
+    background:rgb(15, 45, 60);
+}
+header hr{
+    height:3px;
+    border:none;
+    background:rgb(15, 45, 60);
+}
+ul.git{
+    font-size:0.9em;
+}
+ul.git li{
+    line-height: 20px;
+}
+div#content{
+    box-shadow: 3px 0px 7px -8px rgb(255, 255, 255) inset;
+    margin-right:-15%;
+    color:rgb(255,255,255);
+    background:rgb(15, 45, 60);
+    padding:50px 5% 3%;
+    height:100%;
+    width:65%;
+    width:calc(100% - 280px);
+    box-sizing: border-box;
+    position:absolute;
+    left:280px;
+    overflow:auto;
+}
+div#content a{
+    color:rgb(0,150,255);
+    text-decoration: none;
+}
+footer{
+    height:25px;
+    position: absolute;
+    bottom:0;
+    padding-right: 5px
+}
+.tagBlock div {
+    margin:2px 0;
+    padding:1px 3px;
+    background:rgb(20,100,150);
+}

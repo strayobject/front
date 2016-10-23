@@ -5,10 +5,11 @@ chdir(dirname(__DIR__));
 
 require_once 'vendor/autoload.php';
 
-use Aerys\{Host, Root, Router, Request, Response, function websocket};
-use Front\Controller\{PageController, RedirectController};
+use Aerys\{Host, Http1Driver, Http2Driver, Root, Router, Request, Response, function websocket, function root};
+use Front\Controller\{HomePageController, PageController, RedirectController};
 /**
  * Env
+ * @todo add dotenv support
  */
 date_default_timezone_set('UTC');
 
@@ -16,12 +17,14 @@ date_default_timezone_set('UTC');
  * Config
  */
 const AERYS_OPTIONS = [
-    "user" => "nobody",
-    "keepAliveTimeout" => 60,
-    //"shutdownTimeout" => 300,
-    //"deflateMinimumLength" => 0,
+    'user' => 'nobody',
+    'keepAliveTimeout' => 60,
+    'deflateEnable' => true,
 ];
 
+/**
+ * @todo move bootstrap and routing away from this file
+ */
 /**
  * templating
  */
@@ -30,19 +33,78 @@ $twig = new Twig_Environment($twigLoader, [
     //'cache' => __DIR__.'/var/cache/',
 ]);
 
+$oldSiteController = new RedirectController(301, 'old.strayobject.co.uk', false, true);
+$aboutPageController = new RedirectController(301, 'strayobject.co.uk/me', false, false);
+
 $router = new Router();
+$router->route('GET', '/{path:category|tag/.*}', $oldSiteController);
+$router->route('GET', '/{path:\d{4}/?.*}', $oldSiteController);
+$router->route('GET', '/{path:about}', $aboutPageController);
+$router->route('GET', '/{page:me|projects|blog}/?', new PageController($twig));
+$router->route('GET', '/', new HomePageController($twig));
 
-$router->route('GET', '/{path:category|tag/.*}', new RedirectController(301, 'old.strayobject.co.uk', false));
-$router->route('GET', '/{path:\d{4}/?.*}', new RedirectController(301, 'old.strayobject.co.uk', false));
-$router->route('GET', '/{page:about}/?', new PageController($twig));
 
-
+/**
+ * @todo fetch data for root and hosts from env
+ * @var Root
+ */
 $rootDir = new Root(__DIR__.'/web');
+$rootDir->setOption('mimeFile', __DIR__.'/vendor/amphp/aerys/etc/mime');
+
+$securehost = new Host();
+$securehost
+    ->name('strayobject.co.uk')
+    ->expose('*', 443)
+    ->encrypt(__DIR__.'/cert/cert.pem', __DIR__.'/cert/key.pem')
+    ->use(new Http1Driver())
+    ->use($router)
+    ->use($rootDir)
+;
+
 $host = new Host();
 $host
-    ->name('localhost')
-    //->expose('*', 8899)
+    ->name('strayobject.co.uk')
+    ->expose('*', 80)
+    ->use(new Http1Driver())
+    ->use($router)
+    ->use($rootDir)
+;
+
+$testhost = new Host();
+$testhost
+    ->name('test.strayobject.co.uk')
+    ->expose('*', 4430)
+    ->encrypt(__DIR__.'/cert/cert.pem', __DIR__.'/cert/key.pem')
+    ->use(new Http1Driver())
+    ->use($router)
+    ->use($rootDir)
+;
+
+$devsecurehost = new Host();
+$devsecurehost
+    ->name('dev.strayobject.co.uk')
+    ->expose('*', 8443)
+    ->encrypt(__DIR__.'/cert/cert.pem', __DIR__.'/cert/key.pem', ['allow_self_signed' => true])
+    ->use(new Http1Driver())
+    ->use($router)
+    ->use($rootDir)
+;
+
+$devhost = new Host();
+$devhost
+    ->name('dev.strayobject.co.uk')
     ->expose('*', 8080)
+    ->use(new Http1Driver())
+    ->use($router)
+    ->use($rootDir)
+;
+
+$localhost = new Host();
+$localhost
+    ->name('localhost')
+    ->expose('*', 8081)
+    ->encrypt(__DIR__.'/cert/cert.pem', __DIR__.'/cert/key.pem', ['allow_self_signed' => true])
+    ->use(new Http1Driver())
     ->use($router)
     ->use($rootDir)
 ;

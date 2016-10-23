@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{title|capitalize}}</h1>
+    <p>
+        <a href="https://github.com/strayobject/fileserve">fileServe</a>  - a file server that exposes a given directory to the web.<br/>
+        It supports basic auth, TLS and compression of contents before download.
+    </p>
+    <p>
+        <a href="https://github.com/strayobject/plank">plank</a> - a simplistic, insecure, happy path demo taskboard app.<br/>
+        It uses AMPHP/Aerys to showcase evented/real time development in PHP.
+
+    </p>
+    <p>
+        <a href="http://sochat.strayobject.co.uk">soChat</a> - A websocket based chat, built with RachetPHP.
+    </p>
+    <p>
+        <a href="http://ics.strayobject.co.uk">ICS Translator</a> - An International Code of Signals translator, demo built using AngularJS.
+    </p>
+{% endblock %}
