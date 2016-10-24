@@ -51,15 +51,18 @@ $router->route('GET', '/', new HomePageController($twig));
 $rootDir = new Root(__DIR__.'/web');
 $rootDir->setOption('mimeFile', __DIR__.'/vendor/amphp/aerys/etc/mime');
 
-$securehost = new Host();
-$securehost
-    ->name('test.strayobject.co.uk')
-    ->expose('*', 443)
-    ->encrypt('/root/.acme.sh/test.strayobject.co.uk/test.strayobject.co.uk.key', '/root/.acme.sh/test.strayobject.co.uk/fullchain.pem')
-    ->use(new Http1Driver())
-    ->use($router)
-    ->use($rootDir)
-;
+
+if (file_exists('/root/.acme.sh/test.strayobject.co.uk/fullchain.pem')) {
+    $securehost = new Host();
+    $securehost
+        ->name('test.strayobject.co.uk')
+        ->expose('*', 443)
+        ->encrypt('/root/.acme.sh/test.strayobject.co.uk/test.strayobject.co.uk.key', '/root/.acme.sh/test.strayobject.co.uk/fullchain.pem')
+        ->use(new Http1Driver())
+        ->use($router)
+        ->use($rootDir)
+    ;
+}
 
 $host = new Host();
 $host
