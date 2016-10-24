@@ -52,12 +52,12 @@ $rootDir = new Root(__DIR__.'/web');
 $rootDir->setOption('mimeFile', __DIR__.'/vendor/amphp/aerys/etc/mime');
 
 
-if (file_exists('/root/.acme.sh/test.strayobject.co.uk/fullchain.pem')) {
+if (file_exists('/root/.acme.sh/test.strayobject.co.uk/fullchain.cer')) {
     $securehost = new Host();
     $securehost
-        ->name('test.strayobject.co.uk')
-        ->expose('*', 443)
-        ->encrypt('/root/.acme.sh/test.strayobject.co.uk/test.strayobject.co.uk.key', '/root/.acme.sh/test.strayobject.co.uk/fullchain.pem')
+        ->name('strayobject.co.uk')
+        ->expose('*', 8443)
+        ->encrypt('/root/.acme.sh/test.strayobject.co.uk/fullchain.cer', '/root/.acme.sh/test.strayobject.co.uk/test.strayobject.co.uk.key')
         ->use(new Http1Driver())
         ->use($router)
         ->use($rootDir)
@@ -66,8 +66,8 @@ if (file_exists('/root/.acme.sh/test.strayobject.co.uk/fullchain.pem')) {
 
 $host = new Host();
 $host
-    ->name('test.strayobject.co.uk')
-    ->expose('*', 80)
+    ->name('strayobject.co.uk')
+    ->expose('*', 8080)
     ->use(new Http1Driver())
     ->use($router)
     ->use($rootDir)
