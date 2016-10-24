@@ -53,9 +53,9 @@ $rootDir->setOption('mimeFile', __DIR__.'/vendor/amphp/aerys/etc/mime');
 
 $securehost = new Host();
 $securehost
-    ->name('strayobject.co.uk')
+    ->name('test.strayobject.co.uk')
     ->expose('*', 443)
-    ->encrypt(__DIR__.'/cert/cert.pem', __DIR__.'/cert/key.pem')
+    ->encrypt('/root/.acme.sh/test.strayobject.co.uk/test.strayobject.co.uk.key', '/root/.acme.sh/test.strayobject.co.uk/fullchain.pem')
     ->use(new Http1Driver())
     ->use($router)
     ->use($rootDir)
@@ -63,47 +63,8 @@ $securehost
 
 $host = new Host();
 $host
-    ->name('strayobject.co.uk')
-    ->expose('*', 80)
-    ->use(new Http1Driver())
-    ->use($router)
-    ->use($rootDir)
-;
-
-$testhost = new Host();
-$testhost
     ->name('test.strayobject.co.uk')
-    ->expose('*', 4430)
-    ->encrypt(__DIR__.'/cert/cert.pem', __DIR__.'/cert/key.pem')
-    ->use(new Http1Driver())
-    ->use($router)
-    ->use($rootDir)
-;
-
-$devsecurehost = new Host();
-$devsecurehost
-    ->name('dev.strayobject.co.uk')
-    ->expose('*', 8443)
-    ->encrypt(__DIR__.'/cert/cert.pem', __DIR__.'/cert/key.pem', ['allow_self_signed' => true])
-    ->use(new Http1Driver())
-    ->use($router)
-    ->use($rootDir)
-;
-
-$devhost = new Host();
-$devhost
-    ->name('dev.strayobject.co.uk')
-    ->expose('*', 8080)
-    ->use(new Http1Driver())
-    ->use($router)
-    ->use($rootDir)
-;
-
-$localhost = new Host();
-$localhost
-    ->name('localhost')
-    ->expose('*', 8081)
-    ->encrypt(__DIR__.'/cert/cert.pem', __DIR__.'/cert/key.pem', ['allow_self_signed' => true])
+    ->expose('*', 80)
     ->use(new Http1Driver())
     ->use($router)
     ->use($rootDir)
