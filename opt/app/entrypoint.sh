@@ -12,6 +12,6 @@ then
     wget -O -  https://get.acme.sh | sh
 fi
 
-/root/.acme.sh/acme.sh --issue --standalone -d strayobject.co.uk -d www.strayobject.co.uk --renew-hook "/var/www/html/vendor/amphp/aerys/bin/aerys --restart -c /var/www/html/server.php"
+/root/.acme.sh/acme.sh --issue --standalone --httpport=8080 -d strayobject.co.uk -d www.strayobject.co.uk --renew-hook "/var/www/html/vendor/amphp/aerys/bin/aerys --restart -c /var/www/html/server.php"
 
 php -d zend.assertions=-1 vendor/amphp/aerys/bin/aerys -c server.php
