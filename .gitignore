@@ -3,4 +3,4 @@ vendor
 cert/*
 !cert/acme-client.yml
 *.lock
-
+.env
