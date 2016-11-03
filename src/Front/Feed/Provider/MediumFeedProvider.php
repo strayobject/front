@@ -98,14 +98,19 @@ class MediumFeedProvider implements Promise
         }
 
         foreach($this->source->items as $item) {
+            if ($item->getDate() instanceof \DateTime) {
+                $date = $item->getDate()->format('U');
+            } else {
+                $date = (string) $item->getDate();
+            }
             $feedItem = new FeedItem();
-            $feedItem->setDate(new \DateTime('@'.(string) $item->getDate()));
+            $feedItem->setDate(new \DateTime('@'.$date));
             $feedItem->setTitle($item->getTitle());
             $feedItem->setContent($item->getContent());
             $feedItem->setPlatform('medium');
             $feedItem->setPlatformImage('https://developers.medium.com/img/icons/engineering.png');
             $feedItem->setPlatformLink($item->getUrl());
-            $this->feed[(string) $item->getDate().'-medium'] = $feedItem;
+            $this->feed[$date.'-medium'] = $feedItem;
         }
     }
 

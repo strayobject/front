@@ -22,6 +22,10 @@ const AERYS_OPTIONS = [
  * Env
  */
 date_default_timezone_set('UTC');
+/**
+ * @todo handle possible lack of .env file
+ * @var Dotenv
+ */
 $dotenv = new Dotenv\Dotenv(__DIR__);
 $dotenv->load();
 /**
