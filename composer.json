@@ -1,7 +1,11 @@
 {
     "require": {
         "amphp/aerys": "dev-master",
-        "twig/twig": "^1"
+        "amphp/cache": "^0",
+        "twig/twig": "^1",
+        "vlucas/phpdotenv": "^2",
+        "fguillot/picofeed": "^0.1",
+        "abraham/twitteroauth": "^0"
     },
     "autoload": {
         "psr-4": {"Front\\": "src/Front/"}
