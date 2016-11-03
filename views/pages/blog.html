@@ -3,8 +3,16 @@
 {% block content %}
     <h1>{{title|capitalize}}</h1>
     <p>
-        I always wanted to write those cool, informative blog posts, but it turns out I hardly have time for that.
-        <br/>You can find some of my pre 2016 stuff at my <a href="http://oldblog.strayobject.co.uk">old blog</a>.
-        New things are most likely going to be posted to <a href="http://medium.com/@strayobject">Medium</a>.
+        I always wanted to write those awesome, informative blog posts, but it turns out I hardly have time for that.
+        <br/>You can find some of my pre 2016 stuff on my <a href="http://oldblog.strayobject.co.uk">old blog</a>.
+        New things are most likely going to be posted to <a href="http://medium.com/@strayobject">Medium</a> and listed below.
     </p>
+    {% if feed is empty %}
+        Sorry, we had an issue fetching the feed.
+    {% endif %}
+    {% for post in feed %}
+        <div class="post {{ post.platform }}">
+            {{ include('partial/feeditem.html') }}
+        </div>
+    {% endfor %}
 {% endblock %}

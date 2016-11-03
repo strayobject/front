@@ -24,6 +24,10 @@ h1.small{
     font-size:1.5em;
     padding-left:20px;
 }
+a {
+    color:rgb(255,255,255);
+    text-decoration: none;
+}
 nav,ul{
     padding-top:5px;
     width:100%;
@@ -80,10 +84,63 @@ footer{
     height:25px;
     position: absolute;
     bottom:0;
-    padding-right: 5px
+    padding-right: 5px;
+    font-size:0.8em;
 }
 .tagBlock div {
     margin:2px 0;
     padding:1px 3px;
     background:rgb(20,100,150);
+}
+.post {
+    margin:50px 0 0;
+    clear:both;
+    transition: opacity 1s ease-in-out;
+}
+.post.twitter {
+    background: rgb(63, 87, 99);
+}
+.post.medium {
+    border-bottom: 1px dotted rgb(255,255,255);
+    padding-bottom:50px;
+}
+.post .details {
+  display: inline-block;
+  font-size: 0.6em;
+  padding: 5px;
+  text-align: center;
+  vertical-align: top;
+  width: 55px;
+}
+.post .details img {
+    max-width:100%;
+}
+.post.twitter .details {
+    vertical-align: middle;
+}
+.post.medium .details {
+    float:left;
+    margin:10px;
+}
+.post blockquote {
+    margin-top: 10px 0 10px 50px;
+    padding-left: 15px;
+    border-left: 3px solid #ccc;
+    background: rgb(63, 87, 99);
+    display:inline-block;
+}
+.post.hidden {
+    visibility: hidden;
+    opacity:0;
+}
+.feed-selector-box {
+    text-align: right;
+}
+span.feed-selector {
+    display: inline-block;
+    padding:5px;
+    border-right:1px solid rgb(39, 66, 80);
+    border-left:1px solid rgb(39, 66, 80);
+    font-size:0.8em;
+    cursor: pointer;
 }

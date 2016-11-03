@@ -11,15 +11,30 @@
             {%include 'header.html'%}
             <footer>
                 {% block footer %}
-                    &copy; Copyright {{'now'|date('Y')}}.
+                    &copy; {{'now'|date('Y')}} <a href="https://plainmotif.co.uk">Plainmotif</a>
                 {% endblock %}
             </footer>
         </header>
         <div id="content">
             {% block content %}{% endblock %}
         </div>
+        {%block js%}{%endblock%}
+        <!-- Piwik -->
         <script type="text/javascript">
-            
+          var _paq = _paq || [];
+          _paq.push(["setDomains", ["*.strayobject.co.uk"]]);
+          _paq.push(['trackPageView']);
+          _paq.push(['enableLinkTracking']);
+          (function() {
+            var u="//plainmotif.co.uk/stats/";
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['setSiteId', '2']);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+          })();
         </script>
+        <noscript><p><img src="//plainmotif.co.uk/stats/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+        <!-- End Piwik Code -->
+
     </body>
 </html>

@@ -1,18 +1,28 @@
 {% extends "base.html" %}
 
-{% block title %}{{title}}{% endblock %}
 {% block content %}
-    <h1>{{title}}</h1>
+    <h1>Hi!</h1>
     <p>
-        fileServe
+        I'm Mike; I help startups and larger companies make their applications great.
+        <br/>Visit <a href="/projects">projects</a> or <a href="/me">about</a> to learn more.
     </p>
-    <p>
-        Front - Router/Forwarder/basic website - an <a href="http://amphp.org">Aerys</a> based website.
-    </p>
-    <p>
-        <a href="http://sochat.strayobject.co.uk">soChat</a> - A websocket based chat, built with RachetPHP.
-    </p>
-    <p>
-        <a href="http://ics.strayobject.co.uk">ICS Translator</a> - An International Code of Signals translator, demo built using AngularJS.
-    </p>
+    <div class="feed-selector-box">
+        <span class="feed-selector left" id="feed-all">All</span>
+        <span class="feed-selector" id="medium">Medium</span>
+        <span class="feed-selector right" id="twitter">Twitter</span>
+    </div>
+    {% if feed is empty %}
+        Sorry, we had an issue fetching the feed.
+    {% endif %}
+    {% for post in feed %}
+        <div class="post {{ post.platform }}">
+            {{ include('partial/feeditem.html') }}
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="/js/feed.js"></script>
 {% endblock %}

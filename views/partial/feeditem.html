@@ -1,0 +1,20 @@
+{% if post.platform == 'twitter' %}
+    <p>
+        <span class="details">
+            <a href="{{ post.platformLink }}">
+                <img src="{{ post.platformImage }}"/>
+                {{ post.date|date('Y-m-d') }}
+            </a>
+        </span>
+        {{ post.content|raw }}
+    </p>
+{% else %}
+    <h2>{{ post.title() }}</h2>
+    <span class="details">
+        <a href="{{ post.platformLink }}">
+            <img src="{{ post.platformImage }}"/>
+            {{ post.date|date('Y-m-d') }}
+        </a>
+    </span>
+    {{ post.content|raw }}
+{% endif %}
