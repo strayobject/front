@@ -1,12 +1,15 @@
 version: '2'
 
 services:
-    frontserver:
+    front:
         image: php:7.1-cli
         working_dir: /var/www/html
         entrypoint: /bin/bash -c /var/www/html/opt/app/entrypoint.sh
         volumes:
             - .:/var/www/html
         ports:
-          - 8080:8080
-          - 8443:8443
+          - 127.0.0.1:8080:8080
+          - 127.0.0.1:8443:8443
+          - 127.0.0.1:7000:7000
+        environment:
+          DEV: ${DEV}
