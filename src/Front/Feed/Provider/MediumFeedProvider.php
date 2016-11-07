@@ -98,6 +98,10 @@ class MediumFeedProvider implements Promise
         }
 
         foreach($this->source->items as $item) {
+            /**
+             * Unfortunate necessity?
+             * @todo investigate
+             */
             if ($item->getDate() instanceof \DateTime) {
                 $date = $item->getDate()->format('U');
             } else {
