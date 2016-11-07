@@ -87,12 +87,38 @@ if (file_exists('/var/www/html/cert/fullchain.cer')) {
         ->use($router)
         ->use($rootDir)
     ;
+
+    $securehost = new Host();
+    $securehost
+        ->name('strayobject.co.uk')
+        ->expose('*', 8444)
+        ->encrypt(
+            '/var/www/html/cert/fullchain.cer',
+            '/var/www/html/cert/strayobject.co.uk.key',
+            [
+                'ciphers' => 'ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:RSA+AESGCM:RSA+AES:!aNULL:!MD5:!DSS',
+                'crypto_method' => 'tlsv1.2',
+            ]
+        )
+        ->use(new Http1Driver())
+        ->use($router)
+        ->use($rootDir)
+    ;
 }
 
 $host = new Host();
 $host
     ->name('strayobject.co.uk')
     ->expose('*', 8080)
+    ->use(new Http1Driver())
+    ->use($router)
+    ->use($rootDir)
+;
+
+$host1 = new Host();
+$host1
+    ->name('strayobject.co.uk')
+    ->expose('*', 8081)
     ->use(new Http1Driver())
     ->use($router)
     ->use($rootDir)
