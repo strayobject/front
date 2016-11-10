@@ -16,7 +16,7 @@ else
     fi
     # todo renewal will fail because port is used
     /root/.acme.sh/acme.sh --issue --standalone --httpport 8080 -d strayobject.co.uk \
-    --fullchainpath "/var/www/html/cert/fullchain,cer" --keypath "/var/www/html/cert/strayobject.co.uk.key" \
+    --fullchainpath "/var/www/html/cert/fullchain.cer" --keypath "/var/www/html/cert/strayobject.co.uk.key" \
     --renew-hook "/var/www/html/vendor/amphp/aerys/bin/aerys --restart -c /var/www/html/server.php"
 
     php -d zend.assertions=-1 vendor/amphp/aerys/bin/aerys -c server.php
