@@ -3,13 +3,19 @@ declare(strict_types=1);
 
 namespace Front\Feed;
 
-use Amp\{CombinatorException, function all};
+use Amp\{CombinatorException, Redis\Client, function all};
 
 class UnifiedFeed
 {
-    public function __construct(Callable ...$feedProviders)
+    private $cache;
+    private $name;
+    private $feedProviders;
+
+    public function __construct(Client $cache, string $name, Callable ...$feedProviders)
     {
         $this->feedProviders = $feedProviders;
+        $this->name = $name;
+        $this->cache = $cache;
     }
     /**
      * Merge all the feeds and sort by key
@@ -18,12 +24,19 @@ class UnifiedFeed
     public function __invoke(): \Generator
     {
         try {
+            $cached = yield $this->cache->get($this->name);
+
+            if (!empty($cached)) {
+                return unserialize($cached);
+            }
+
             /**
              * @todo we could use some() here, but it should probably be an option
              */
             $feed = (yield all($this->initProviders()));
             $merged = array_merge(...$feed);
             krsort($merged);
+            $this->cache->set($this->name, serialize($merged), 900);
 
             return $merged;
         } catch (CombinatorException $e) {

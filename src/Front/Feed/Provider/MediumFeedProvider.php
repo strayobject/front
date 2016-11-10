@@ -7,9 +7,7 @@ use Amp\{Deferred, Promise, function immediately};
 use PicoFeed\{PicoFeedException, Reader\Reader};
 use Front\Feed\FeedItem;
 
-/**
- * @todo add cache
- */
+
 class MediumFeedProvider implements Promise
 {
     /**
@@ -51,12 +49,13 @@ class MediumFeedProvider implements Promise
         $deferred = new Deferred;
 
         immediately(function() use ($deferred) {
-            $deferred->succeed($this->do());
+            $deferred->succeed(($this->do()));
         });
 
         return $deferred->promise();
     }
     /**
+     * @todo handle errors
      * @return array
      */
     public function do(): array
@@ -84,6 +83,7 @@ class MediumFeedProvider implements Promise
             $resource->getEncoding()
         );
         $feed = $parser->execute();
+
         $this->source = $feed;
     }
     /**

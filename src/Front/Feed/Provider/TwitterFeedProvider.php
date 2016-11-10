@@ -7,9 +7,6 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 use Amp\{Deferred, Promise, function immediately};
 use Front\Feed\FeedItem;
 
-/**
- * @todo add cache
- */
 class TwitterFeedProvider implements Promise
 {
     /**
@@ -68,6 +65,7 @@ class TwitterFeedProvider implements Promise
     /**
      * Fetch data from remote source, populate $source with the result
      * @todo error handling
+     * @todo move setup data out
      * @return void
      */
     private function fetch(): void

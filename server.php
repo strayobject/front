@@ -5,6 +5,7 @@ chdir(dirname(__DIR__));
 
 require_once 'vendor/autoload.php';
 
+use Amp\Redis\Client;
 use Aerys\{Host, Http1Driver, Http2Driver, Root, Router, Request, Response, function websocket, function root};
 use Front\Controller\{HomePageController, PageController, RedirectController};
 use Front\Feed\{UnifiedFeed, Provider\MediumFeedProvider, Provider\TwitterFeedProvider};
@@ -42,6 +43,10 @@ if (file_exists('var/cache') || mkdir('var/cache', 0777, true)) {
 
 $twigLoader = new Twig_Loader_Filesystem(__DIR__.'/views/');
 $twig = new Twig_Environment($twigLoader, $options);
+/**
+ * Init
+ */
+$redis = new Client("tcp://redis:6379");
 $twitterFeedProvider = new TwitterFeedProvider(
     new TwitterOAuth(
         getenv('TWITTER_CONSUMER_KEY'),
@@ -51,8 +56,8 @@ $twitterFeedProvider = new TwitterFeedProvider(
     )
 );
 $mediumFeedProvider = new MediumFeedProvider(new Reader(), getenv('MEDIUM_FEED_URL'));
-$homeFeed = new UnifiedFeed($mediumFeedProvider, $twitterFeedProvider);
-$blogFeed = new UnifiedFeed($mediumFeedProvider);
+$homeFeed = new UnifiedFeed($redis, 'home', $mediumFeedProvider, $twitterFeedProvider);
+$blogFeed = new UnifiedFeed($redis, 'blog', $mediumFeedProvider);
 $oldSiteController = new RedirectController(301, 'oldblog.strayobject.co.uk', false, true);
 $aboutPageController = new RedirectController(301, 'strayobject.co.uk/me', false, false);
 $router = new Router();
@@ -87,38 +92,12 @@ if (file_exists('/var/www/html/cert/fullchain.cer')) {
         ->use($router)
         ->use($rootDir)
     ;
-
-    $securehost = new Host();
-    $securehost
-        ->name('strayobject.co.uk')
-        ->expose('*', 8444)
-        ->encrypt(
-            '/var/www/html/cert/fullchain.cer',
-            '/var/www/html/cert/strayobject.co.uk.key',
-            [
-                'ciphers' => 'ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:RSA+AESGCM:RSA+AES:!aNULL:!MD5:!DSS',
-                'crypto_method' => 'tlsv1.2',
-            ]
-        )
-        ->use(new Http1Driver())
-        ->use($router)
-        ->use($rootDir)
-    ;
 }
 
 $host = new Host();
 $host
     ->name('strayobject.co.uk')
     ->expose('*', 8080)
-    ->use(new Http1Driver())
-    ->use($router)
-    ->use($rootDir)
-;
-
-$host1 = new Host();
-$host1
-    ->name('strayobject.co.uk')
-    ->expose('*', 8081)
     ->use(new Http1Driver())
     ->use($router)
     ->use($rootDir)
