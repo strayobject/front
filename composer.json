@@ -1,7 +1,7 @@
 {
     "require": {
         "amphp/aerys": "dev-master",
-        "amphp/cache": "^0",
+        "amphp/redis": "^0.2",
         "twig/twig": "^1",
         "vlucas/phpdotenv": "^2",
         "fguillot/picofeed": "^0.1",
